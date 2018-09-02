@@ -15,7 +15,10 @@ with open('README.rst', 'r', encoding='utf-8') as f:
     README = f.read()
 
 REQUIRES = [
-    "apistar"
+    "apistar",
+    "arrow",
+    "attrs",
+    "netaddr",
 ]
 
 setup(
