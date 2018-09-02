@@ -1,0 +1,25 @@
+[[source]]
+
+name = "pypi"
+verify_ssl = true
+url = "https://pypi.python.org/simple"
+
+
+[requires]
+
+python_version = "3.5"
+
+
+[packages]
+
+better-exceptions = "*"
+"e1839a8" = {path = ".", editable = true}
+
+
+[dev-packages]
+
+ipython = "*"
+pylint = "*"
+"flake8" = "*"
+pytest = "*"
+coverage = "*"

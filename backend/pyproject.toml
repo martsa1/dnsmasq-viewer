@@ -1,0 +1,17 @@
+[metadata]
+name = 'backend'
+version = '0.0.1'
+description = 'API-Star based API Server that wraps the DNS-Masq leases file'
+author = 'Sam Martin'
+author_email = 'Nivekkas@gmail.com'
+license = 'MIT'
+url = 'https://github.com/_/backend'
+
+[requires]
+python_version = ['3.5', '3.6', '3.7']
+
+[build-system]
+requires = ['setuptools', 'wheel']
+
+[tool.hatch.commands]
+prerelease = 'hatch build'
