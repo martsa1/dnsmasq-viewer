@@ -53,4 +53,10 @@ setup(
     tests_require=['coverage', 'pytest'],
 
     packages=find_packages(),
+
+    entry_points={
+        'console_scripts': [
+            'run_backend = backend.main:main',
+        ]
+    }
 )
