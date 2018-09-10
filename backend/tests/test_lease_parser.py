@@ -12,10 +12,18 @@ import netaddr
 import backend.lease_parser as lp
 
 from backend.exceptions import LeaseParseError
-from backend.structures import LeaseRecord
+from backend.validators import LeaseRecord
 
 
-def test_get_lease_file(monkeypatch):
+@pytest.mark.parametrize(
+    'path',
+    [
+        None,
+        '',
+        './static/leasefile',
+    ]
+)
+def test_get_lease_file(path, monkeypatch):
     '''
     Verify we get a list of strings back from the
     backend.lease_parser.get_lease_file function when passed default or valid
@@ -26,12 +34,20 @@ def test_get_lease_file(monkeypatch):
     mocked_file = mock_open(read_data=mock_string)
     monkeypatch.setattr('builtins.open', mocked_file)
 
-    lease_lines = lp.get_lease_file()
+    lease_lines = lp.get_lease_file(path)
 
     assert lease_lines == [mock_string]
 
 
-def test_get_lease_file_raises(monkeypatch):
+@pytest.mark.parametrize(
+    'path',
+    [
+        None,
+        '',
+        './static/leasefile',
+    ]
+)
+def test_get_lease_file_raises(path, monkeypatch):
     '''
     Verify we get a LeaseParseError when lp.get_lease_file can't open a file.
     '''
@@ -42,7 +58,7 @@ def test_get_lease_file_raises(monkeypatch):
     monkeypatch.setattr(builtins, 'open', mocked_file)
 
     with pytest.raises(LeaseParseError):
-        lp.get_lease_file()
+        lp.get_lease_file(path)
         print(mocked_file.call_args_list)
 
 

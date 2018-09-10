@@ -12,7 +12,7 @@ from netaddr import IPAddress, EUI
 from netaddr.core import AddrFormatError
 
 from backend.exceptions import LeaseParseError
-from backend.structures import LeaseRecord
+from backend.validators import LeaseRecord
 
 
 LOG = logging.getLogger(__name__)
@@ -29,8 +29,9 @@ def get_lease_file(path: str = None) -> Union[list, None]:
      -  /var/lib/misc/dnsmasq.leases
      -  /etc/dnsmasq.d/dnsmasq.leases
 
-    Function will raise a LeasesNotFoundError if path or neither of the
-    defaults correctly loads a file.
+    :returns List: Returns a list of lease strings, ready to be parsed.
+    :raises LeasesNotFoundError: Function will raise a LeasesNotFoundError if
+    path or neither of the defaults correctly loads a file.
     '''
     files_to_try = [
         '/var/lib/misc/dnsmasq.leases',
@@ -38,7 +39,7 @@ def get_lease_file(path: str = None) -> Union[list, None]:
     ]
 
     if path and isinstance(path, str):
-        files_to_try.insert(path, 0)
+        files_to_try.insert(0, path)
 
     for file in files_to_try:
         try:
@@ -76,7 +77,7 @@ def parse_lease(lease_line: str) -> Union[LeaseRecord, None]:
 
     #  Format of lease line: lease expiry time, mac_address, ip address,
     #  hostname, client id
-    expiry_time, mac_address, ip_address, hostname, client_id = lease_line.split(' ')
+    expiry_time, mac_address, ip_address, hostname, client_id = lease_line.strip().split(' ')
     try:
         ip_address = IPAddress(ip_address)
         mac_address = EUI(mac_address)
